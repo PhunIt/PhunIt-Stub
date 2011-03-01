@@ -50,6 +50,15 @@ class PhunItStubTest extends PHPUnit_Framework_TestCase {
     $this->stub->demoException();
   }
 
+  /**
+   * @test
+   */
+  public function invokeMethodOnGhostStub() {
+    $this->stub = new PhunItStub();
+    $this->stub->method('ghost')->returnValue(2);
+    $this->assertEquals(2, $this->stub->ghost());
+  }
+
 }
 
 class TestException extends Exception {

@@ -26,5 +26,3 @@ abstract class BaseValue implements Value {
   }
 
 }
-
-?>

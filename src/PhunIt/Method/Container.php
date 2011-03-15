@@ -19,6 +19,7 @@ class Container {
 
   public function add($name, Method $method) {
     $this->methods[$name] = $method;
+    return $method;
   }
 
   public function get($name) {

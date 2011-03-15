@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\Unit\PhunIt;
+namespace Tests\Unit\PhunIt\Stub;
 
 use PhunIt\Stub\Stub;
 use Assets\TestClass;

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the PhunIt package.
+ *
+ * (c) PhunIt (https://github.com/PhunIt)
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace PhunIt\Method;
 
 use PhunIt\Stub\Stub;
@@ -27,13 +36,13 @@ class Method {
     return $this->stub;
   }
 
-  public function call() {
-    return $this->returnValue->call();
-  }
-
   public function returnsException(\Exception $exception) {
     $this->returnValue = new ExceptionValue($exception);
     return $this->stub;
+  }
+
+  public function call() {
+    return $this->returnValue->call();
   }
 
 }

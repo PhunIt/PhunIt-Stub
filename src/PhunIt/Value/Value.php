@@ -14,5 +14,4 @@ namespace PhunIt\Value;
 interface Value {
 
   public function call();
-  
 }

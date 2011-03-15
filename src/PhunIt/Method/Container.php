@@ -23,6 +23,9 @@ class Container {
   }
 
   public function get($name) {
+    if (!$this->has($name)) {
+      throw new \Exception("Method {$name} doesn't exist");
+    }
     return $this->methods[$name];
   }
 

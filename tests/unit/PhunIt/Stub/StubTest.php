@@ -12,6 +12,7 @@
 namespace Tests\Unit\PhunIt\Stub;
 
 use PhunIt\Stub\Stub;
+use PhunIt\Method\Method;
 use Assets\TestClass;
 use Assets\TestException;
 
@@ -28,6 +29,13 @@ class StubTest extends \PHPUnit_Framework_TestCase {
    */
   public function callsOriginalMethod() {
     $this->assertEquals(5, $this->testClass->testMethod());
+  }
+
+  /**
+   * @test
+   */
+  public function returnsAMethodWhenStubbing() {
+    $this->assertTrue($this->testClass->stubs('foo') instanceof Method);
   }
 
   /**

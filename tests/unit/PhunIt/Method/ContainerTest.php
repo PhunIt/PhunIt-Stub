@@ -55,4 +55,12 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
     $this->assertFalse($this->container->has('anotherMethod'));
   }
 
+  /**
+   * @test
+   * @expectedException \Exception
+   */
+  public function throwsExceptionWhenGettingAMethodThatDoesNotExist() {
+    $this->container->get('foo');
+  }
+
 }

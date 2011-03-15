@@ -9,12 +9,22 @@
  * file that was distributed with this source code.
  */
 
-namespace Assets;
+namespace PhunIt\Value;
 
-class TestClass {
+use PhunIt\Value\Value;
 
-  public function testMethod() {
-    return 5;
+abstract class BaseValue implements Value {
+
+  protected $value;
+
+  public function __construct($value) {
+    $this->value = $value;
+  }
+
+  public function call() {
+    
   }
 
 }
+
+?>

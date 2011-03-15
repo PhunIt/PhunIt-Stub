@@ -9,12 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Assets;
+namespace PhunIt\Value;
 
-class TestClass {
+interface Value {
 
-  public function testMethod() {
-    return 5;
-  }
-
+  public function call();
+  
 }

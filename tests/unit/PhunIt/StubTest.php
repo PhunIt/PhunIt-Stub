@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the PhunIt package.
+ *
+ * (c) PhunIt (https://github.com/PhunIt)
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Tests\Unit\PhunIt;
 
 use PhunIt\Stub;
@@ -8,34 +17,34 @@ use Assets\TestException;
 
 class StubTest extends \PHPUnit_Framework_TestCase {
 
-  private $stub;
+  private $testClass;
 
   public function setUp() {
-    $this->stub = new Stub(new TestClass());
+    $this->testClass = new Stub(new TestClass());
   }
 
   /**
    * @test
    */
   public function callsOriginalMethod() {
-    $this->assertEquals(5, $this->stub->testMethod());
+    $this->assertEquals(5, $this->testClass->testMethod());
   }
 
   /**
    * @test
    */
   public function callsHandledMethod() {
-    $this->stub->handle('testMethod')->returnValue(4);
-    $this->assertEquals(4, $this->stub->testMethod());
+    $this->testClass->stubs('testMethod')->returns(4);
+    $this->assertEquals(4, $this->testClass->testMethod());
   }
 
   /**
    * @test
    */
   public function callsMoreThanOneMethod() {
-    $this->stub->handle('testMethod')->returnValue(3);
-    $this->stub->handle('anotherMethod')->returnValue(4);
-    $this->assertEquals(4, $this->stub->anotherMethod());
+    $this->testClass->stubs('testMethod')->returns(3);
+    $this->testClass->stubs('anotherMethod')->returns(4);
+    $this->assertEquals(4, $this->testClass->anotherMethod());
   }
 
   /**
@@ -43,7 +52,7 @@ class StubTest extends \PHPUnit_Framework_TestCase {
    * @expectedException \Exception
    */
   public function throwsExceptionWhenMethodDoesNotExist() {
-    $this->stub->notExistantMethod();
+    $this->testClass->notExistantMethod();
   }
 
   /**
@@ -51,8 +60,8 @@ class StubTest extends \PHPUnit_Framework_TestCase {
    * @expectedException Assets\TestException
    */
   public function canThrowExceptionsAsReturnValue() {
-    $this->stub->handle('testException')->returnException(new TestException("This is a test exception"));
-    $this->stub->testException();
+    $this->testClass->stubs('testException')->returnsException(new TestException("This is a test exception"));
+    $this->testClass->testException();
   }
   
   /**
@@ -60,17 +69,29 @@ class StubTest extends \PHPUnit_Framework_TestCase {
    */
   public function doesNotThrowExceptionsIfNotToldToDoSo() {
     $exception = new TestException("This exception shouldn't be thrown");
-    $this->stub->handle('testMethod')->returnValue($exception);
-    $this->assertEquals($exception, $this->stub->testMethod());
+    $this->testClass->stubs('testMethod')->returns($exception);
+    $this->assertEquals($exception, $this->testClass->testMethod());
   }
 
   /**
    * @test
    */
   public function canWorkWithoutTargetObject() {
-    $this->stub = new Stub();
-    $this->stub->handle('testMethod')->returnValue(2);
-    $this->assertEquals(2, $this->stub->testMethod());
+    $ghostStub = new Stub();
+    $ghostStub->stubs('testMethod')->returns(2);
+    $this->assertEquals(2, $ghostStub->testMethod());
+  }
+
+  /**
+   *
+   * @test
+   */
+  public function canDefineClosuresForCustomReturnValues() {
+    $squareRoot = function($number) {
+      return sqrt($number);
+    };
+    $this->testClass->stubs('testMethod')->with(array('number'))->returns($squareRoot);
+    $this->assertEquals(3, $this->testClass->testMethod(9));
   }
 
 }

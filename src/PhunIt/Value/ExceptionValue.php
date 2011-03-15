@@ -9,12 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Assets;
+namespace PhunIt\Value;
 
-class TestClass {
+use PhunIt\Value\BaseValue as AbstractValue;
 
-  public function testMethod() {
-    return 5;
+class ExceptionValue extends AbstractValue {
+
+  public function call() {
+    throw $this->value;
   }
 
 }
+

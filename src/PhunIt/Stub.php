@@ -11,25 +11,50 @@
 
 namespace PhunIt;
 
+use PhunIt\Value\Container;
+use PhunIt\Value\Value;
+use PhunIt\Value\StaticValue;
+use PhunIt\Value\ExceptionValue;
+
 class Stub {
 
   protected $target;
-
-  protected $returnValues = array();
-
+  protected $valueContainer;
   protected $currentMethod = null;
 
   public function __construct($target = null) {
     $this->target = $target;
+    $this->valueContainer = new Container();
   }
 
   public function __call($method, $arguments) {
-    if (array_key_exists($method, $this->returnValues)) {
-      if ($this->returnValues[$method] instanceof \Exception) {
-        throw $this->returnValues[$method];
-      }
-      return $this->returnValues[$method];
+    if ($this->isMethodStubbed($method)) {
+      return $this->callStubbedMethod($method);
     }
+    return $this->callTargetMethod($method, $arguments);
+  }
+
+  public function stubs($method) {
+    return $this->setCurrentMethod($method);
+  }
+
+  public function returns($value) {
+    return $this->addStubbedMethod(new StaticValue($value));
+  }
+
+  public function returnsException(\Exception $exception) {
+    return $this->addStubbedMethod(new ExceptionValue($exception));
+  }
+
+  protected function isMethodStubbed($method) {
+    return $this->valueContainer->hasValueFor($method);
+  }
+
+  protected function callStubbedMethod($method) {
+    return $this->valueContainer->getValue($method)->call();
+  }
+
+  protected function callTargetMethod($method, $arguments) {
     try {
       return call_user_func_array(array($this->target, $method), $arguments);
     } catch (\Exception $e) {
@@ -37,20 +62,22 @@ class Stub {
     }
   }
 
-  public function handle($method) {
-    $this->returnValues[$method] = null;
+  protected function setCurrentMethod($method) {
     $this->currentMethod = $method;
     return $this;
   }
 
-  public function returnValue($value) {
-    $this->returnValues[$this->currentMethod] = $value;
+  protected function addStubbedMethod(Value $value) {
+    $this->valueContainer->add($this->currentMethod, $value);
+    $this->resetCurrentMethod();
+    return $this;
+  }
+  
+  protected function resetCurrentMethod() {
     $this->currentMethod = null;
+    return null;
   }
 
-  public function returnException(\Exception $exception) {
-    $this->returnValues[$this->currentMethod] = $exception;
-    $this->currentMethod = null;
-  }
+  
 
 }

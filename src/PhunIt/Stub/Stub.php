@@ -17,31 +17,24 @@ use PhunIt\Method\Container;
 class Stub {
 
   protected $target;
-  protected $stubbedMethods;
+  protected $methodContainer;
 
   public function __construct($target = null) {
     $this->target = $target;
-    $this->stubbedMethods = array();
+    $this->methodContainer = new Container();
   }
 
   public function __call($method, $arguments) {
-    if ($this->isMethodStubbed($method)) {
-      return $this->callStubbedMethod($method);
+    if ($this->methodContainer->has($method)) {
+      return $this->methodContainer->get($method)->call();
     }
     return $this->callTargetMethod($method, $arguments);
   }
 
-  public function stubs($method) {
-    $this->stubbedMethods[$method] = new Method($this);
-    return $this->stubbedMethods[$method];
-  }
-
-  protected function isMethodStubbed($method) {
-    return array_key_exists($method, $this->stubbedMethods);
-  }
-
-  protected function callStubbedMethod($method) {
-    return $this->stubbedMethods[$method]->call();
+  public function stubs($methodName) {
+    $method = new Method($this);
+    $this->methodContainer->add($methodName, $method);
+    return $method;
   }
 
   protected function callTargetMethod($method, $arguments) {

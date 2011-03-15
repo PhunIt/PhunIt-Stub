@@ -13,7 +13,7 @@ namespace PhunIt\Method;
 
 use PhunIt\Method\Method;
 
-class MethodContainer {
+class Container {
 
   protected $methods = array();
 

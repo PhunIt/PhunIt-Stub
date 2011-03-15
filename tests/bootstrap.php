@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__ . '/../src/PhunIt/UniversalClassLoader.php';
+require_once __DIR__ . '/../src/PhunIt/ClassLoader/UniversalClassLoader.php';
 
-use PhunIt\UniversalClassLoader;
+use PhunIt\ClassLoader\UniversalClassLoader;
 
 $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array(

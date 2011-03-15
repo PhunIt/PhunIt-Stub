@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace PhunIt;
+namespace PhunIt\ClassLoader;
 
 /**
  * UniversalClassLoader implements a "universal" autoloader for PHP 5.3.

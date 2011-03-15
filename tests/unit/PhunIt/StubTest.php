@@ -11,7 +11,7 @@
 
 namespace Tests\Unit\PhunIt;
 
-use PhunIt\Stub;
+use PhunIt\Stub\Stub;
 use Assets\TestClass;
 use Assets\TestException;
 

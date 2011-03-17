@@ -11,10 +11,14 @@
 
 namespace Assets;
 
-class TestClass {
+use Assets\TestInterface;
 
-  public function testMethod() {
-    return 5;
+class TestClass implements TestInterface {
+
+  public $testField = 5;
+
+  public function testMethod($a = 'foo') {
+    return $this->testField;
   }
 
 }

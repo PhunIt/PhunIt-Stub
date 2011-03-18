@@ -1,10 +1,21 @@
 <?php
+
+/*
+ * This file is part of the PhunIt package.
+ *
+ * (c) PhunIt (https://github.com/PhunIt)
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace PhunIt\Stub;
 
+use PhunIt\Stub\Stub;
 use PhunIt\Method\Method;
 use PhunIt\Method\Container;
 
-abstract class Stubbed {
+abstract class Stubbed implements Stub {
 
   protected $stub_target;
   protected $stub_methodContainer;
@@ -12,7 +23,6 @@ abstract class Stubbed {
   public function stub_init($target) {
     $this->stub_target = $target;
     $this->stub_methodContainer = new Container();
-    echo "YEPA";
   }
   
   public function __call($method, $arguments) {

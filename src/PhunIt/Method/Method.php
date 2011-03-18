@@ -18,7 +18,7 @@ use PhunIt\Value\ExceptionValue;
 class Method {
 
   private $stub;
-  private $arguments;
+//  private $arguments;
   private $returnValue;
 
   public function __construct(Stub $stub) {
@@ -26,10 +26,10 @@ class Method {
     $this->arguments = array();
   }
 
-  public function with(array $arguments) {
-    $this->arguments = $arguments;
-    return $this;
-  }
+//  public function with(array $arguments) {
+//    $this->arguments = $arguments;
+//    return $this;
+//  }
 
   public function returns($value) {
     $this->returnValue = new StaticValue($value);

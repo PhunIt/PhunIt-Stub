@@ -13,11 +13,11 @@ namespace Assets;
 
 use Assets\TestInterface;
 
-class TestClass implements TestInterface {
+class TestClass {
 
   public $testField = 5;
 
-  public function testMethod($a = 'foo') {
+  public function testMethod() {
     return $this->testField;
   }
 

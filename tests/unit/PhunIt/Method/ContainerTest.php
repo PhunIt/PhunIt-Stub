@@ -11,18 +11,23 @@
 
 namespace Tests\Unit\PhunIt\Method;
 
-use PhunIt\Stub\Stub;
+use PhunIt\Stub\Factory;
 use PhunIt\Method\Container;
 use PhunIt\Method\Method;
+use Assets\TestClass;
 
 class ContainerTest extends \PHPUnit_Framework_TestCase {
 
-  protected $container;
+  protected $target;
+  protected $stub;
   protected $method;
+  protected $container;
 
   public function setUp() {
+    $this->target = new TestClass();
+    $this->stub = Factory::create($this->target);
+    $this->method = new Method($this->stub);
     $this->container = new Container();
-    $this->method = new Method(new Stub());
   }
 
   /**
@@ -62,5 +67,6 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
   public function throwsExceptionWhenGettingAMethodThatDoesNotExist() {
     $this->container->get('foo');
   }
+
 
 }
